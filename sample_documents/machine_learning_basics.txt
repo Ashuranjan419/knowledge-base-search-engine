@@ -1,0 +1,72 @@
+Machine Learning Basics
+
+Introduction
+Machine learning is a subset of artificial intelligence (AI) that focuses on building systems that can learn from and make decisions based on data. Unlike traditional programming where rules are explicitly coded, machine learning algorithms learn patterns from data.
+
+Types of Machine Learning
+
+1. Supervised Learning
+In supervised learning, the algorithm learns from labeled training data. The model is trained on input-output pairs and learns to map inputs to the correct outputs. Common applications include:
+- Classification (e.g., spam detection, image recognition)
+- Regression (e.g., price prediction, weather forecasting)
+
+Popular algorithms include:
+- Linear Regression
+- Logistic Regression
+- Decision Trees
+- Random Forests
+- Support Vector Machines (SVM)
+- Neural Networks
+
+2. Unsupervised Learning
+Unsupervised learning works with unlabeled data. The algorithm tries to find patterns and structure in the data without explicit guidance. Applications include:
+- Clustering (e.g., customer segmentation)
+- Dimensionality reduction (e.g., PCA)
+- Anomaly detection
+
+Common algorithms:
+- K-Means Clustering
+- Hierarchical Clustering
+- Principal Component Analysis (PCA)
+- Autoencoders
+
+3. Reinforcement Learning
+Reinforcement learning involves an agent that learns to make decisions by interacting with an environment. The agent receives rewards or penalties based on its actions and learns to maximize cumulative reward.
+
+Applications:
+- Game playing (e.g., AlphaGo)
+- Robotics
+- Autonomous vehicles
+- Resource management
+
+Key Concepts
+
+Overfitting and Underfitting
+- Overfitting occurs when a model learns the training data too well, including noise, and performs poorly on new data
+- Underfitting happens when a model is too simple to capture the underlying patterns in the data
+
+Training, Validation, and Test Sets
+Data is typically split into three sets:
+- Training set: Used to train the model
+- Validation set: Used to tune hyperparameters and prevent overfitting
+- Test set: Used to evaluate final model performance
+
+Feature Engineering
+Feature engineering is the process of creating, transforming, and selecting relevant features from raw data to improve model performance. Good features can significantly impact model accuracy.
+
+Model Evaluation Metrics
+Different metrics are used depending on the problem:
+- Classification: Accuracy, Precision, Recall, F1-Score, ROC-AUC
+- Regression: Mean Squared Error (MSE), Root Mean Squared Error (RMSE), R-squared
+
+Deep Learning
+Deep learning is a subset of machine learning that uses neural networks with multiple layers (deep neural networks). It has achieved remarkable success in:
+- Computer Vision (CNNs)
+- Natural Language Processing (RNNs, Transformers)
+- Speech Recognition
+- Generative Models (GANs)
+
+Popular frameworks include TensorFlow, PyTorch, and Keras.
+
+Conclusion
+Machine learning continues to evolve and find applications across various domains, from healthcare to finance to entertainment. Understanding the fundamentals is crucial for anyone looking to work in this exciting field.
