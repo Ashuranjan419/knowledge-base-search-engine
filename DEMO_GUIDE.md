@@ -1,6 +1,7 @@
 # 🎬 Demo Guide - Knowledge Base Search Engine
 
-https://drive.google.com/file/d/1tJnmg2W19jJb4JndgArUeLN1pXgWdsmv/view
+Demo video link: https://drive.google.com/file/d/1tJnmg2W19jJb4JndgArUeLN1pXgWdsmv/view
+
 This guide will walk you through a complete demonstration of the Knowledge Base Search Engine.
 
 ## 📋 Prerequisites
