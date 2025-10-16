@@ -290,11 +290,8 @@ python main.py
 
 ## 🎬 Post-Production
 
-1. **Upload to Platform**
-   - YouTube (recommended)
-   - Loom
-   - Vimeo
-   - Google Drive (with public link)
+1. - Google Drive (with public link)
+   - https://drive.google.com/file/d/1tJnmg2W19jJb4JndgArUeLN1pXgWdsmv/view
 
 2. **Add Description**
    ```
