@@ -366,7 +366,7 @@ pip install -r requirements.txt
 
 ## 🎬 Demo Video
 
-[Link to demo video - To be added]
+[https://drive.google.com/file/d/1tJnmg2W19jJb4JndgArUeLN1pXgWdsmv/view]
 
 ## 📝 Project Structure
 
