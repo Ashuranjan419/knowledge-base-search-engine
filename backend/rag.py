@@ -92,25 +92,54 @@ class RAGSystem:
             text: Document text content
             source: Source identifier (e.g., filename)
         """
+        import time
+        start_time = time.time()
         logger.info(f"Adding document: {source}")
         
         # Chunk the document
+        chunk_start = time.time()
         chunks = self.document_parser.chunk_text(
             text, 
             chunk_size=self.chunk_size, 
             overlap=self.chunk_overlap
         )
+        logger.info(f"Chunking took {time.time() - chunk_start:.2f} seconds")
         
         if not chunks:
             logger.warning(f"No chunks created from document: {source}")
             return
         
+        logger.info(f"Created {len(chunks)} chunks, now generating embeddings...")
+        
         # Generate embeddings
-        logger.info(f"Generating embeddings for {len(chunks)} chunks")
-        embeddings = self.embedding_model.encode(chunks, show_progress_bar=False)
+        embed_start = time.time()
+        try:
+            embeddings = self.embedding_model.encode(
+                chunks, 
+                show_progress_bar=True,  # Show progress to see if it's stuck
+                convert_to_numpy=True,
+                batch_size=32  # Process in batches
+            )
+            logger.info(f"Embedding generation took {time.time() - embed_start:.2f} seconds")
+            logger.info(f"Successfully generated {len(embeddings)} embeddings with shape {embeddings.shape}")
+        except Exception as e:
+            logger.error(f"Error generating embeddings: {str(e)}")
+            raise
         
         # Add to FAISS index
-        self.index.add(np.array(embeddings).astype('float32'))
+        faiss_start = time.time()
+        try:
+            # Ensure embeddings are 2D array
+            if len(embeddings.shape) == 1:
+                embeddings = embeddings.reshape(1, -1)
+            
+            embeddings_array = np.array(embeddings).astype('float32')
+            logger.info(f"Adding {embeddings_array.shape} embeddings to FAISS index")
+            self.index.add(embeddings_array)
+            logger.info(f"FAISS indexing took {time.time() - faiss_start:.2f} seconds")
+        except Exception as e:
+            logger.error(f"Error adding to FAISS index: {str(e)}")
+            raise
         
         # Store document metadata
         for i, chunk in enumerate(chunks):
@@ -120,7 +149,8 @@ class RAGSystem:
                 "chunk_id": i
             })
         
-        logger.info(f"Successfully added {len(chunks)} chunks from {source}")
+        total_time = time.time() - start_time
+        logger.info(f"Successfully added {len(chunks)} chunks from {source} in {total_time:.2f} seconds")
     
     def retrieve(self, query: str, top_k: int = 3) -> List[Dict]:
         """
@@ -138,11 +168,18 @@ class RAGSystem:
             return []
         
         # Generate query embedding
-        query_embedding = self.embedding_model.encode([query])[0]
+        query_embedding = self.embedding_model.encode([query], convert_to_numpy=True)
+        
+        # Ensure query_embedding is 2D for FAISS search
+        if len(query_embedding.shape) == 1:
+            query_embedding = query_embedding.reshape(1, -1)
+        elif query_embedding.shape[0] > 1:
+            # If multiple embeddings returned, take the first one
+            query_embedding = query_embedding[0:1]
         
         # Search in FAISS index
         distances, indices = self.index.search(
-            np.array([query_embedding]).astype('float32'), 
+            query_embedding.astype('float32'),
             min(top_k, len(self.documents))
         )
         

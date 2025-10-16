@@ -102,11 +102,14 @@ async def upload_documents(files: List[UploadFile] = File(...)):
                 logger.info(f"Successfully processed: {file.filename}")
                 
             except Exception as e:
-                logger.error(f"Error processing {file.filename}: {str(e)}")
+                import traceback
+                error_msg = str(e) if str(e) else "Unknown error"
+                logger.error(f"Error processing {file.filename}: {error_msg}")
+                logger.error(f"Traceback: {traceback.format_exc()}")
                 uploaded_files.append({
                     "filename": file.filename,
                     "status": "error",
-                    "error": str(e)
+                    "error": error_msg
                 })
         
         return {

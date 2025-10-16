@@ -159,8 +159,11 @@ class DocumentParser:
         chunks = []
         start = 0
         text_length = len(text)
+        max_iterations = 10000  # Safety limit to prevent infinite loops
+        iteration_count = 0
         
-        while start < text_length:
+        while start < text_length and iteration_count < max_iterations:
+            iteration_count += 1
             end = start + chunk_size
             
             # Try to break at sentence or word boundary
@@ -182,7 +185,15 @@ class DocumentParser:
                 chunks.append(chunk)
             
             # Move start position with overlap
-            start = end - overlap if end < text_length else text_length
+            # Ensure we always make progress
+            if end <= start:
+                # Prevent infinite loop if we're not moving forward
+                start += max(1, chunk_size)
+            else:
+                start = end - overlap if end < text_length else text_length
+        
+        if iteration_count >= max_iterations:
+            logger.warning(f"Chunking hit iteration limit. Processed {len(chunks)} chunks.")
         
         logger.info(f"Text chunked into {len(chunks)} chunks")
         return chunks
